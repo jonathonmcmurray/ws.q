@@ -26,4 +26,9 @@ q).spx.x                                                        //check raw mess
 "{type:\"poll\"}"
 "{type:\"poll\"}"
 "{type:\"poll\"}"
+q).ws.w                                                         //check list of opened sockets
+h| hostname           callback
+-| ---------------------------
+3| api.bitfinex.com   .bfx.upd
+4| otcsf.spreadex.com .spx.upd
 ```
