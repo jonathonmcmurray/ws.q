@@ -46,3 +46,15 @@ q)"hi"
 q)"kdb4life"
 ```
 
+## GDAX Feedhandler
+
+As a further example of an application using the library, there is included
+a feedhandler for the GDAX cryptocurrency exchange [docs](https://docs.gdax.com/#websocket-feed)
+
+This is located in `examples/gdax.q` and should be started from the root of the repo
+with `q examples/gdax.q` to ensure it can locate `ws.q`
+
+In it's provided form, the FH will subscribe to Level 2 data for ETH-USD and BTC-GBP
+maintaining a book table within the session. This can be changed to publishing to a 
+tickerplant, for example, by modifying the `publish` function
+>>>>>>> Stashed changes
