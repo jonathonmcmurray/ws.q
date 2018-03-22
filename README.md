@@ -57,4 +57,3 @@ with `q examples/gdax.q` to ensure it can locate `ws.q`
 In it's provided form, the FH will subscribe to Level 2 data for ETH-USD and BTC-GBP
 maintaining a book table within the session. This can be changed to publishing to a 
 tickerplant, for example, by modifying the `publish` function
->>>>>>> Stashed changes
