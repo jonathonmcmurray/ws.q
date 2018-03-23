@@ -1,3 +1,6 @@
+/JS object parser
+/minor modification of https://github.com/KxSystems/kdb/blob/master/e/json.k
+
 \d .js
 
 /[]{} Cbg*xhijefcspmdznuvt
