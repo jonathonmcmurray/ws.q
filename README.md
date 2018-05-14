@@ -8,7 +8,7 @@ socket callback function, tracked in a keyed table `.ws.w`
 Additionally, pub/sub functionality is provided by `wsu.q`, with an example
 implementation in the form of `wschaintick.q`, a chained tickerplant which
 subscribes to a regular kdb+tick TP & republishes received records via 
-WebSockets. [See below](#wsuq-wschaintickq) for more details.
+WebSockets. [See below](#wsuq--wschaintickq) for more details.
 
 ## Example (client via `ws.q`)
 
