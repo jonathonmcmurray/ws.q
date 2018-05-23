@@ -51,6 +51,41 @@ q)"hi"
 q)"kdb4life"
 ```
 
+### Verbose mode
+
+A 'verbose' mode has been added, in which requests & responses are logged to
+console. To activate, set `.ws.VERBOSE:1b` before calling `.ws.open`, for
+example:
+
+```
+q).ws.VERBOSE:1b
+q).bfx.h:.ws.open["wss://api.bitfinex.com/ws/2";`.bfx.upd]
+-- REQUEST --
+:wss://api.bitfinex.com GET /ws/2 HTTP/1.1
+Host: api.bitfinex.com
+Upgrade: websocket
+Connection: Upgrade
+Sec-WebSocket-Version: 13
+Sec-WebSocket-Extensions: permessage-deflate; client_max_window_bits
+Origin: api.bitfinex.com
+
+
+-- RESPONSE --
+HTTP/1.1 101 Switching Protocols
+Date: Wed, 23 May 2018 22:58:33 GMT
+Connection: upgrade
+Set-Cookie: __cfduid=d6383731dd7eed3f0205ecf48a7e8548d1527116313; expires=Thu, 23-May-19 22:58:33 GMT; path=/; domain=.bitfinex.com; HttpOnly
+Upgrade: websocket
+Sec-WebSocket-Accept: HSmrc0sMlYUkAGmm5OPpG2HaGWk=
+Sec-WebSocket-Version: 13
+WebSocket-Server: uWebSockets
+Expect-CT: max-age=604800, report-uri="https://report-uri.cloudflare.com/cdn-cgi/beacon/expect-ct"
+Server: cloudflare
+CF-RAY: 41fb20bdb9e2348e-LHR
+
+
+```
+
 ### GDAX Feedhandler
 
 As a further example of an application using the library, there is included
