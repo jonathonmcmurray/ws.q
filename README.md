@@ -54,8 +54,8 @@ q)"kdb4life"
 ### Verbose mode
 
 A 'verbose' mode has been added, in which requests & responses are logged to
-console. To activate, set `.ws.VERBOSE:1b` before calling `.ws.open`, for
-example:
+console. To activate, either set `.ws.VERBOSE:1b` before calling `.ws.open` or
+start the process with `-verbose` in the args, for example:
 
 ```
 q).ws.VERBOSE:1b
