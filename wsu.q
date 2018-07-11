@@ -17,4 +17,10 @@ sub:{[h;x;y]if[x~`;:sub[h;;y]each t];if[not x in t;'x];del[x]h;add[h;x;y]}
 
 end:{(neg union/[w[;;0]])@\:(`.u.end;x)}
 
-.z.ws:{if[`sub=`$(x:.j.k x)[`type];sub[.z.w] . ("S"$x)`tables`syms]}
+.z.ws:{
+  if[`sub=(x:"S"$.j.k x)[`type];
+     k:`table`tables `tables in key x;                                              //get key for table(s)
+     if[-11=type x k;:sub[.z.w]. x(k;`syms)];                                       //if single table, subscribe
+     if[11=type x k;:sub[.z.w;;x`syms] each x k];                                   //if multiple tables, subscribe each
+    ];
+ }
