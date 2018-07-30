@@ -6,10 +6,12 @@ VERBOSE:@[value;`.ws.VERBOSE;$[count .z.x;"-verbose" in .z.x;0b]];      //defaul
 w:([h:`int$()] hostname:`$();callback:`$())                             //table for recording open websockets
 
 .z.ws:{value[w[.z.w]`callback]x}                                        //pass messages to relevant handler
+.z.wc:{.ws.w:delete from .ws.w where h=.z.w}                            //delete from .ws.w when handle closes
 
 open0:{[x;y;v]
   pr:.req.proxy h:.req.host x;                                          //handle proxy if needed,get host
   hs:.req.hsurl[.req.prot[x],h];                                        //get hsym of host
+  if[pr[0];hs:.req.hsurl `$"ws://",.req.host pr 1];                     //overwrite host handle if using proxy
   d:(enlist"Origin")!enlist h;                                          //use Origin header
   s:first r:hs d:.req.buildquery[`GET;pr;x;h;d;()];                     //build query & send
   if[v;-1"-- REQUEST --\n",string[hs]," ",d];                           //if verbose, log request
