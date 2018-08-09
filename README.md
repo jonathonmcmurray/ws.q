@@ -10,6 +10,18 @@ implementation in the form of `wschaintick.q`, a chained tickerplant which
 subscribes to a regular kdb+tick TP & republishes received records via 
 WebSockets. [See below](#wsuq--wschaintickq) for more details.
 
+## Installation
+
+As `reQ` is a "submodule" of this repo, it is necessary to clone the repo 
+recursively so as to get both e.g.
+
+```
+git clone --recursive https://github.com/jonathonmcmurray/ws.q.git
+```
+
+In future, installation will be possible via Anaconda to automatically install
+dependencies etc.
+
 ## Example (client via `ws.q`)
 
 ```
