@@ -10,7 +10,7 @@ socket callback function, tracked in a keyed table `.ws.w`
 `ws-server` provides pub/sub functionality, with an example
 implementation in the form of `wschaintick.q`, a chained tickerplant which
 subscribes to a regular kdb+tick TP & republishes received records via 
-WebSockets. [See below](#wshandler--wschaintickq) for more details.
+WebSockets. [See below](#ws-handler--wschaintickq) for more details.
 
 ## Installation
 
