@@ -1,0 +1,20 @@
+package:
+  name: ws-client
+  version: 0.1.0
+
+build:
+  number: 0
+  noarch: true
+
+source:
+  path: .
+
+requirements:
+  run:
+    - qutil
+    - ws-handler
+
+about:
+  home: https://github.com/jonathonmcmurray/ws.q
+  license: MIT
+  summary: Module for WebSocket client connections

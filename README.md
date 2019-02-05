@@ -1,34 +1,37 @@
 # ws.q
 
-A simple library for using WebSockets in KDB+/q
+A simple set of modules for using WebSockets in KDB+/q
 
-Provides function `.ws.open` to open a WebSocket, allowing definition of a per-
+`ws-handler` is a generic wrapper for `.z.ws` in order to allow different handlers to be defined depending on wether the q session is a client or server for the present connection.
+
+`ws-client` provides function `.ws.open` to open a WebSocket as a client, allowing definition of a per-
 socket callback function, tracked in a keyed table `.ws.w`
 
-Additionally, pub/sub functionality is provided by `wsu.q`, with an example
+`ws-server` provides pub/sub functionality, with an example
 implementation in the form of `wschaintick.q`, a chained tickerplant which
 subscribes to a regular kdb+tick TP & republishes received records via 
-WebSockets. [See below](#wsuq--wschaintickq) for more details.
+WebSockets. [See below](#wshandler--wschaintickq) for more details.
 
 ## Installation
 
-As `reQ` is a "submodule" of this repo, it is necessary to clone the repo 
-recursively so as to get both e.g.
+The simplest way to install the modules is via Anaconda. Assuming an Anaconda distribution is installed (e.g. [miniconda](https://conda.io/en/latest/miniconda.html)), installation is as follows:
+
+```bash
+$ conda install -c jmcmurray ws-client ws-server
+```
+
+(If only one module is required, the other can be excluded. `ws-handler` will automatically be installed as a dependency of both)
+
+Manual installation is also possible, requiring set up of [qutil](https://github.com/nugend/qutil) & the [reQ](https://github.com/jonathonmcmurray/reQ) module. Following this, copy or link the `ws-*` directories from this repo into the `$QPATH` directory.
+
+## Example (client via `ws-client`)
 
 ```
-git clone --recursive https://github.com/jonathonmcmurray/ws.q.git
-```
-
-In future, installation will be possible via Anaconda to automatically install
-dependencies etc.
-
-## Example (client via `ws.q`)
-
-```
-$ q ws.q
+$ q
 KDB+ 3.5 2017.10.11 Copyright (C) 1993-2017 Kx Systems
 l32/ 2()core 1945MB jonny grizzly 127.0.1.1 NONEXPIRE
 
+q).utl.require"ws-client"
 q).bfx.upd:{.bfx.x,:enlist x}                                   //define upd func for bitfinex
 q).spx.upd:{.spx.x,:enlist x}                                   //define upd func for spreadex
 q).bfx.h:.ws.open["wss://api.bitfinex.com/ws/2";`.bfx.upd]      //open bitfinex socket
@@ -51,10 +54,11 @@ h| hostname           callback
 ```
 
 ```
-$ q ws.q
+$ q
 KDB+ 3.5 2017.11.30 Copyright (C) 1993-2017 Kx Systems
 l64/ 8()core 16048MB jmcmurray homer.aquaq.co.uk 127.0.1.1 EXPIRE 2018.06.30 AquaQ #50170
 
+q).utl.require"ws-client"
 q).echo.upd:show
 q).echo.h:.ws.open["ws://demos.kaazing.com/echo";`.echo.upd]
 q).echo.h "hi"
@@ -110,7 +114,7 @@ In it's provided form, the FH will subscribe to Level 2 data for ETH-USD and BTC
 maintaining a book table within the session. This can be changed to publishing to a 
 tickerplant, for example, by modifying the `publish` function
 
-## `wsu.q` & `wschaintick.q`
+## `ws-handler` & `wschaintick.q`
 
 These scripts (based off `u.q` & `chaintick.q` from kx, respectively) provide pub/sub
 functionality for WebSockets, and an example in the form of a chained TP to republish
@@ -127,13 +131,14 @@ socket. This object contains three keys, `type`, `tables` and `syms`. `type` is 
 while `tables` & `syms` are lists of tables & syms to subscribe to. Similar to `u.q`,
 an empty list (including leaving out the key) subscribes to everything available.
 
-### q client via `ws.q`
+### q client via `ws-handler`
 
 ```
-jonny@grizzly ~/git/ws.q (master) $ q ws.q
+jonny@grizzly ~/git/ws.q (master) $ q
 KDB+ 3.5 2017.10.11 Copyright (C) 1993-2017 Kx Systems
 l32/ 2()core 1945MB jonny grizzly 127.0.1.1 NONEXPIRE
 
+q).utl.require"ws-handler"
 q)upd:{show x};h:.ws.open["ws://localhost:5110";`upd]
 q)h .j.j enlist[`type]!enlist`sub
 q)"[\"quote\",[{\"time\":\"0D21:59:47.593326000\",\"sym\":\"INTC\",\"bid\":65.27,\"ask\":66.32,\"bsize\":47,\"asize\":67,\"mode\":\"A\",\"ex\":\"N\"},\n {\"time\":\"0D21:59:47.593326000\",\"sym\":\"INTC\",\"bid\":65.54,\"ask\":67.03,\"b..

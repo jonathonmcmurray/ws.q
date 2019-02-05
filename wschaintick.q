@@ -5,7 +5,7 @@
 
 if[not system"p";system"p 5110"]
 
-\l wsu.q
+.utl.require"ws-server"
 
 if[system"t";
 	 .z.ts:{.wsu.pub'[.wsu.t;value each .wsu.t];@[`.;.wsu.t;@[;`sym;`g#]0#]}; 

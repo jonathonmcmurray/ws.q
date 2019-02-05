@@ -1,7 +1,5 @@
-/ depends on ws.q, in root directory of repo
-\l ws.q
-/ depends on reQ - included as submodule, if not cloned recursively, you must correct location
-\l reQ/req.q
+/ depends on ws-client, qutil package
+.utl.require"ws-client"
 
 book:([] sym:`$();time:`timestamp$();bids:();bsizes:();asks:();asizes:())           //schema for book table
 trade:([] time:`timestamp$();sym:`$();price:`float$();bid:`float$();ask:`float$();side:`$();tid:`long$();size:`float$())

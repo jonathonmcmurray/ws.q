@@ -1,12 +1,10 @@
 \d .ws
-\l reQ/req.q
 
 VERBOSE:@[value;`.ws.VERBOSE;$[count .z.x;"-verbose" in .z.x;0b]];      //default to non-verbose output
 
 w:([h:`int$()] hostname:`$();callback:`$())                             //table for recording open websockets
 
-.z.ws:{value[w[.z.w]`callback]x}                                        //pass messages to relevant handler
-.z.wc:{.ws.w:delete from .ws.w where h=.z.w}                            //delete from .ws.w when handle closes
+.ws.onmessage.server:{value[w[.z.w]`callback]x}                         //pass messages to relevant handler
 
 open0:{[x;y;v]
   pr:.req.proxy h:.req.host x;                                          //handle proxy if needed,get host
@@ -16,6 +14,7 @@ open0:{[x;y;v]
   s:first r:hs d:.req.buildquery[`GET;pr;x;h;d;()];                     //build query & send
   if[v;-1"-- REQUEST --\n",string[hs]," ",d];                           //if verbose, log request
   if[v;-1"-- RESPONSE --\n",last r];                                    //if verbose, log response
+  servers,:(s;`$h);                                                     //record handle & callback in table
   w,:(s;`$h;y);                                                         //record handle & callback in table
   :r;                                                                   //return response
  }
