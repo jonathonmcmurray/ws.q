@@ -114,14 +114,14 @@ In it's provided form, the FH will subscribe to Level 2 data for ETH-USD and BTC
 maintaining a book table within the session. This can be changed to publishing to a 
 tickerplant, for example, by modifying the `publish` function
 
-## `ws-handler` & `wschaintick.q`
+## `ws-server` & `wschaintick.q`
 
 These scripts (based off `u.q` & `chaintick.q` from kx, respectively) provide pub/sub
 functionality for WebSockets, and an example in the form of a chained TP to republish
 records over WebSockets.
 
 Given the data is published over WebSockets, this can be consumed in a wide variety of
-programming languages (including in q via the client library `ws.q`, although this is
+programming languages (including in q via the client library `ws-client`, although this is
 obviously a less efficient option than using kdb+ built in IPC). Some examples are
 presented below. In each case, `wschaintick.q` is running on port 5110, along with
 a standard kdb+tick tickerplant & a dummy feed.
@@ -131,14 +131,14 @@ socket. This object contains three keys, `type`, `tables` and `syms`. `type` is 
 while `tables` & `syms` are lists of tables & syms to subscribe to. Similar to `u.q`,
 an empty list (including leaving out the key) subscribes to everything available.
 
-### q client via `ws-handler`
+### q client via `ws-client`
 
 ```
 jonny@grizzly ~/git/ws.q (master) $ q
 KDB+ 3.5 2017.10.11 Copyright (C) 1993-2017 Kx Systems
 l32/ 2()core 1945MB jonny grizzly 127.0.1.1 NONEXPIRE
 
-q).utl.require"ws-handler"
+q).utl.require"ws-client"
 q)upd:{show x};h:.ws.open["ws://localhost:5110";`upd]
 q)h .j.j enlist[`type]!enlist`sub
 q)"[\"quote\",[{\"time\":\"0D21:59:47.593326000\",\"sym\":\"INTC\",\"bid\":65.27,\"ask\":66.32,\"bsize\":47,\"asize\":67,\"mode\":\"A\",\"ex\":\"N\"},\n {\"time\":\"0D21:59:47.593326000\",\"sym\":\"INTC\",\"bid\":65.54,\"ask\":67.03,\"b..
