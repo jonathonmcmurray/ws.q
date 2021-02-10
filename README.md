@@ -2,8 +2,6 @@
 
 A simple set of modules for using WebSockets in KDB+/q
 
-`ws-handler` is a generic wrapper for `.z.ws` in order to allow different handlers to be defined depending on wether the q session is a client or server for the present connection.
-
 `ws-client` provides function `.ws.open` to open a WebSocket as a client, allowing definition of a per-
 socket callback function, tracked in a keyed table `.ws.w`
 
@@ -12,9 +10,37 @@ implementation in the form of `wschaintick.q`, a chained tickerplant which
 subscribes to a regular kdb+tick TP & republishes received records via 
 WebSockets. [See below](#ws-handler--wschaintickq) for more details.
 
-## Installation
+`ws-handler` is a generic wrapper for `.z.ws` in order to allow different handlers to be defined depending
+on wether the q session is a client or server for the present connection. Typically it shouldn't be loaded
+directly but will be loaded as a dependency of the client/server libs.
 
-The simplest way to install the modules is via Anaconda. Assuming an Anaconda distribution is installed (e.g. [miniconda](https://conda.io/en/latest/miniconda.html)), installation is as follows:
+## Setup
+
+The simplest way for most people to setup will be using the standalone scripts from the latest release in the
+repo's [Releases](https://github.com/jonathonmcmurray/ws.q/releases) tab. These scripts can be loaded directly
+into a q session & have no dependencies e.g. (with client library)
+
+```
+ $ q
+KDB+ 4.0 2020.05.04 Copyright (C) 1993-2020 Kx Systems
+l64/ 12(16)core 16296MB jonny desktop-c4h2kis 127.0.1.1 EXPIRE 2021.06.05 jonathon.mcmurray@aquaq.co.uk KOD #4171328
+
+q)\l ws-client_0.2.0.q
+q).echo.upd:show
+q).echo.h:.ws.open["wss://echo.websocket.org";`.echo.upd]
+q).echo.h "hello world"
+q)"hello world"
+```
+
+Note that other examples in this readme use e.g. `.utl.require"ws-client"` to load lib instead of `\l` - you can simply replace
+with the relevant `\l` command if using the standalone scripts.
+
+It should be possible to load both `ws-client_*.q` and `ws-server_*.q` in the same q process without conflict if a single
+process needs to act as both a server & client.
+
+## Installation via Anaconda
+
+It is also possible to install the modules via Anaconda. Assuming an Anaconda distribution is installed (e.g. [miniconda](https://conda.io/en/latest/miniconda.html)), installation is as follows:
 
 ```bash
 $ conda install -c jmcmurray ws-client ws-server
@@ -60,7 +86,7 @@ l64/ 8()core 16048MB jmcmurray homer.aquaq.co.uk 127.0.1.1 EXPIRE 2018.06.30 Aqu
 
 q).utl.require"ws-client"
 q).echo.upd:show
-q).echo.h:.ws.open["ws://demos.kaazing.com/echo";`.echo.upd]
+q).echo.h:.ws.open["wss://echo.websocket.org";`.echo.upd]
 q).echo.h "hi"
 q)"hi"
 .echo.h "kdb4life"
@@ -130,6 +156,10 @@ Subscription is done by opening the WebSocket and then writing a JSON object to 
 socket. This object contains three keys, `type`, `tables` and `syms`. `type` is `"sub"`
 while `tables` & `syms` are lists of tables & syms to subscribe to. Similar to `u.q`,
 an empty list (including leaving out the key) subscribes to everything available.
+
+Note: if using the standalone version of `ws-server_*.q` from [Releases](https://github.com/jonathonmcmurray/ws.q/releases)
+page, please use `wschaintick.q` from there as well (version from main repo uses
+qutil to load `ws-server`).
 
 ### q client via `ws-client`
 
