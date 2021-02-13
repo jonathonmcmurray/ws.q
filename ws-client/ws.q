@@ -22,6 +22,7 @@ open0:{[x;y;v]
 open:{neg first open0[x;y;.ws.VERBOSE]}                                 //return neg handle for messaging
 
 .ws.close:{[h]
+  h:abs h;
   if[all(h in key .ws.w;h in key .z.W);hclose h];                       //close handle if h is found both in .ws.w and .z.W (all opened handles)
   .ws.w:.ws.w _ h;                                                      //remove h from .ws.w
   .ws.servers: .ws.servers _ h;                                         //remove h from .ws.servers
