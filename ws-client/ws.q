@@ -28,6 +28,6 @@ open:{neg first open0[x;y;.ws.VERBOSE]}                                 //return
   .ws.servers: .ws.servers _ h;                                         //remove h from .ws.servers
  }
 
-.ws.closea:{ each[.ws.close;(0!.ws.w)[`h]] }                            //close all opened websockets
+.ws.closea:{.ws.close each (0!.ws.w)[`h]}                            //close all opened websockets
 
 \d .
