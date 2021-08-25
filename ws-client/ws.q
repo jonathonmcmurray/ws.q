@@ -35,6 +35,7 @@ if[not `req in key `;
          $[count q`body;q`body;""];                                                   //add payload if present
     :r;                                                                               //return complete query string
   };
+  .cookies.addcookies:{[q]q};                                                         // without reQ loaded, don't do anything with cookies
  ];
 
 VERBOSE:@[value;`.ws.VERBOSE;$[count .z.x;"-verbose" in .z.x;0b]];      //default to non-verbose output
@@ -48,6 +49,7 @@ open0:{[x;y;v]
   q:.req.proxy q;                                                       //handle proxy if needed
   hs:.url.hsurl`$raze q ./:enlist[`url`protocol],$[`proxy in key q;1#`proxy;enlist`url`host]; //get hostname as handle
   q[`headers]:(enlist"Origin")!enlist q[`url;`host];                    //use Origin header
+  q:.cookies.addcookies[q];                                             //if reQ is loaded, cookies can be added
   s:first r:hs d:.req.buildquery[q];                                    //build query & send
   if[v;-1"-- REQUEST --\n",string[hs]," ",d];                           //if verbose, log request
   if[v;-1"-- RESPONSE --\n",last r];                                    //if verbose, log response
